@@ -251,6 +251,7 @@ async def process_pull_request(db: AsyncSession, payload: dict, repo: Repository
     )
     db.add(event)
     db.add(ActivityFeedEntry(
+        user_id=repo.user_id,
         type=decision.lower(),
         text=f"PR #{pr_number} in {repo.full_name} → {decision} ({severity})",
     ))
@@ -375,6 +376,7 @@ async def process_push(db: AsyncSession, payload: dict, repo: Repository, delive
     )
     db.add(event)
     db.add(ActivityFeedEntry(
+        user_id=repo.user_id,
         type=decision.lower(),
         text=f"Commit {commit_sha[:7]} in {repo.full_name} → {decision} ({severity})",
     ))
@@ -460,6 +462,7 @@ async def process_comment(
     )
     db.add(event)
     db.add(ActivityFeedEntry(
+        user_id=repo.user_id,
         type=decision.lower(),
         text=f"Comment by @{author} in {repo.full_name} → {decision}",
     ))
@@ -590,6 +593,7 @@ async def process_new_issue(
     )
     db.add(event)
     db.add(ActivityFeedEntry(
+        user_id=repo.user_id,
         type="triage",
         text=f"Issue #{issue_number} in {repo.full_name} → {classification} ({decision})",
     ))

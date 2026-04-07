@@ -53,7 +53,11 @@ async def analyze_issue(
         )
         db.add(issue)
 
+        # Look up user_id from the repo
+        _repo_result = await db.execute(select(Repository).where(Repository.id == repo_id))
+        _repo_obj = _repo_result.scalar_one_or_none()
         feed = ActivityFeedEntry(
+            user_id=_repo_obj.user_id if _repo_obj else None,
             type="triage",
             text=f"Issue triaged: \"{title}\" → {result.get('classification')}",
         )

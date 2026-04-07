@@ -23,17 +23,25 @@ async def get_stats(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
-    # Count triaged issues
-    issues_result = await db.execute(select(func.count(TriagedIssue.id)))
+    # Subquery: repo IDs belonging to the current user
+    user_repo_ids = select(Repository.id).where(Repository.user_id == current_user.id).scalar_subquery()
+
+    # Count triaged issues (only for user's repos)
+    issues_result = await db.execute(
+        select(func.count(TriagedIssue.id)).where(TriagedIssue.repo_id.in_(select(Repository.id).where(Repository.user_id == current_user.id)))
+    )
     issues_analysed = issues_result.scalar() or 0
 
-    # Count moderation events
-    events_result = await db.execute(select(func.count(ModerationEvent.id)))
+    # Count moderation events (only for user's repos)
+    events_result = await db.execute(
+        select(func.count(ModerationEvent.id)).where(ModerationEvent.repo_id.in_(select(Repository.id).where(Repository.user_id == current_user.id)))
+    )
     prs_moderated = events_result.scalar() or 0
 
-    blocked = await db.execute(select(func.count(ModerationEvent.id)).where(ModerationEvent.decision == "BLOCK"))
-    flagged = await db.execute(select(func.count(ModerationEvent.id)).where(ModerationEvent.decision == "FLAG"))
-    passed = await db.execute(select(func.count(ModerationEvent.id)).where(ModerationEvent.decision == "PASS"))
+    user_mod_filter = ModerationEvent.repo_id.in_(select(Repository.id).where(Repository.user_id == current_user.id))
+    blocked = await db.execute(select(func.count(ModerationEvent.id)).where(ModerationEvent.decision == "BLOCK", user_mod_filter))
+    flagged = await db.execute(select(func.count(ModerationEvent.id)).where(ModerationEvent.decision == "FLAG", user_mod_filter))
+    passed = await db.execute(select(func.count(ModerationEvent.id)).where(ModerationEvent.decision == "PASS", user_mod_filter))
 
     # Active repos
     active_result = await db.execute(
@@ -41,10 +49,10 @@ async def get_stats(
     )
     active_repos = active_result.scalar() or 0
 
-    # Events today
+    # Events today (scoped to user's repos)
     today_start = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
     today_result = await db.execute(
-        select(func.count(ModerationEvent.id)).where(ModerationEvent.timestamp >= today_start)
+        select(func.count(ModerationEvent.id)).where(ModerationEvent.timestamp >= today_start, user_mod_filter)
     )
     events_today = today_result.scalar() or 0
 
@@ -73,6 +81,9 @@ async def get_activity(
     db: AsyncSession = Depends(get_db),
 ):
     """Returns per-day triage and moderation counts for the last N days."""
+    user_repo_filter_issues = TriagedIssue.repo_id.in_(select(Repository.id).where(Repository.user_id == current_user.id))
+    user_repo_filter_events = ModerationEvent.repo_id.in_(select(Repository.id).where(Repository.user_id == current_user.id))
+
     result = []
     now = datetime.now(timezone.utc)
     for i in range(days - 1, -1, -1):
@@ -83,12 +94,14 @@ async def get_activity(
             select(func.count(TriagedIssue.id)).where(
                 TriagedIssue.analyzed_at >= day_start,
                 TriagedIssue.analyzed_at < day_end,
+                user_repo_filter_issues,
             )
         )
         events_count = await db.execute(
             select(func.count(ModerationEvent.id)).where(
                 ModerationEvent.timestamp >= day_start,
                 ModerationEvent.timestamp < day_end,
+                user_repo_filter_events,
             )
         )
         result.append({
@@ -107,6 +120,7 @@ async def get_feed(
 ):
     result = await db.execute(
         select(ActivityFeedEntry)
+        .where(ActivityFeedEntry.user_id == current_user.id)
         .order_by(ActivityFeedEntry.time.desc())
         .limit(limit)
     )

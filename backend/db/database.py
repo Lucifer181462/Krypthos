@@ -1,5 +1,6 @@
 import os
 
+import sqlalchemy
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 
@@ -18,6 +19,12 @@ async def init_db():
     from db import models  # noqa: F401 — import so models register with Base
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+        # Ensure new columns exist on older tables (lightweight migration)
+        await conn.execute(
+            sqlalchemy.text(
+                "ALTER TABLE activity_feed ADD COLUMN IF NOT EXISTS user_id VARCHAR REFERENCES users(id)"
+            )
+        )
 
 
 async def get_db():

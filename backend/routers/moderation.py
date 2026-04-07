@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
 from db.database import get_db
-from db.models import ModerationEvent, User
+from db.models import ModerationEvent, Repository, User
 from middleware.auth import get_current_user
 
 router = APIRouter()
@@ -47,6 +47,8 @@ async def list_events(
 ):
     from sqlalchemy.orm import selectinload
     q = select(ModerationEvent).options(selectinload(ModerationEvent.repository))
+    # Scope to current user's repos
+    q = q.where(ModerationEvent.repo_id.in_(select(Repository.id).where(Repository.user_id == current_user.id)))
     if repoId:
         q = q.where(ModerationEvent.repo_id == repoId)
     if decision:

@@ -146,6 +146,7 @@ class ActivityFeedEntry(Base):
     __tablename__ = "activity_feed"
 
     id: Mapped[str] = mapped_column(String, primary_key=True, default=_uuid)
+    user_id: Mapped[str | None] = mapped_column(String, ForeignKey("users.id"), nullable=True)
     type: Mapped[str] = mapped_column(String, nullable=False)  # block | triage | flag | pass | readme | batch
     text: Mapped[str] = mapped_column(Text, nullable=False)
     time: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())

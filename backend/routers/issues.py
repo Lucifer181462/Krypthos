@@ -83,6 +83,8 @@ async def list_issues(
     db: AsyncSession = Depends(get_db),
 ):
     q = select(TriagedIssue)
+    # Scope to current user's repos
+    q = q.where(TriagedIssue.repo_id.in_(select(Repository.id).where(Repository.user_id == current_user.id)))
     if repoId:
         q = q.where(TriagedIssue.repo_id == repoId)
     if classification:

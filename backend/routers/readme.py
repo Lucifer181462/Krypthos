@@ -31,6 +31,7 @@ async def generate_readme(
     result = await readme_generator.build_readme(body.repoUrl, body.options)
 
     db.add(ActivityFeedEntry(
+        user_id=current_user.id,
         type="readme",
         text=f"README generated for {result['repoName']}",
     ))

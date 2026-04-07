@@ -274,6 +274,7 @@ async def get_recommendations(
         })
 
     db.add(ActivityFeedEntry(
+        user_id=user.id,
         type="recommender",
         text=f"Found {len(results)} recommended issues for @{user.username}",
     ))
