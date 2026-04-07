@@ -71,10 +71,10 @@ export const unwatchRepo = (id: string) => del(`/repos/${id}/watch`);
 
 // ── Issue Triage ─────────────────────────────────────────────────────────────
 export interface AnalyzePayload {
-  repoFullName: string;
-  issueNumber: number;
-  issueTitle: string;
-  issueBody: string;
+  title: string;
+  body: string;
+  repoFullName?: string;
+  issueNumber?: number;
 }
 
 export interface TriageResult {

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { LogOut, Bell, RefreshCw, CheckCircle, AlertTriangle, XCircle, Tag, FileText, ChevronDown, UserCheck } from 'lucide-react';
+import { LogOut, Bell, RefreshCw, CheckCircle, AlertTriangle, XCircle, Tag, FileText, ChevronDown, UserCheck, Menu } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { getDashboardFeed, loginUrl } from '../lib/api';
 import type { FeedEntry } from '../lib/api';
@@ -8,6 +8,7 @@ interface HeaderProps {
   user: { login: string; avatarUrl: string };
   onLogout: () => void;
   title: string;
+  onMenuToggle?: () => void;
 }
 
 function timeAgo(ts: string) {
@@ -29,7 +30,7 @@ function feedIcon(item: FeedEntry) {
   return { Icon: CheckCircle, color: 'text-emerald-400', bg: 'bg-emerald-500/10' };
 }
 
-export function Header({ user, onLogout, title }: HeaderProps) {
+export function Header({ user, onLogout, title, onMenuToggle }: HeaderProps) {
   const [notifOpen, setNotifOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
   const [feed, setFeed] = useState<FeedEntry[]>([]);
@@ -79,10 +80,19 @@ export function Header({ user, onLogout, title }: HeaderProps) {
   };
 
   return (
-    <header className="h-14 border-b border-zinc-800 bg-zinc-950/90 backdrop-blur-sm flex items-center justify-between px-6 flex-shrink-0 z-30 relative">
-      <div>
-        <h1 className="text-sm font-semibold text-zinc-100 leading-tight">{title}</h1>
-        <p className="text-[10px] text-zinc-600 hidden sm:block leading-tight">GitWise AI Platform</p>
+    <header className="h-14 border-b border-zinc-800 bg-zinc-950/90 backdrop-blur-sm flex items-center justify-between px-4 sm:px-6 flex-shrink-0 z-30 relative">
+      <div className="flex items-center gap-3">
+        {/* Mobile hamburger */}
+        <button
+          onClick={onMenuToggle}
+          className="lg:hidden p-1.5 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-colors"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+        <div>
+          <h1 className="text-sm font-semibold text-zinc-100 leading-tight">{title}</h1>
+          <p className="text-[10px] text-zinc-600 hidden sm:block leading-tight">GitWise AI Platform</p>
+        </div>
       </div>
 
       <div className="flex items-center gap-2">
@@ -104,7 +114,7 @@ export function Header({ user, onLogout, title }: HeaderProps) {
           </button>
 
           {notifOpen && (
-            <div className="absolute right-0 top-full mt-2 w-80 bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden z-50">
+            <div className="absolute right-0 top-full mt-2 w-72 sm:w-80 bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden z-50">
               <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-800">
                 <span className="text-xs font-semibold text-zinc-200">Recent Activity</span>
                 <span className="text-[10px] text-zinc-600">Last 8 events</span>

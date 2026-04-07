@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { LayoutDashboard, GitBranch, Tag, Shield, Compass, FileText, Zap, Settings } from 'lucide-react';
+import { LayoutDashboard, GitBranch, Tag, Shield, Compass, FileText, Zap, Settings, X } from 'lucide-react';
 import { cn } from '../utils/cn';
 import type { Page } from '../types';
 import { getDashboardStats } from '../lib/api';
@@ -7,9 +7,11 @@ import { getDashboardStats } from '../lib/api';
 interface SidebarProps {
   currentPage: Page;
   navigate: (page: Page) => void;
+  mobileOpen?: boolean;
+  onClose?: () => void;
 }
 
-export function Sidebar({ currentPage, navigate }: SidebarProps) {
+export function Sidebar({ currentPage, navigate, mobileOpen, onClose }: SidebarProps) {
   const [counts, setCounts] = useState({ triage: 0, moderation: 0, repositories: 0 });
 
   useEffect(() => {
@@ -29,16 +31,30 @@ export function Sidebar({ currentPage, navigate }: SidebarProps) {
   ];
 
   return (
-    <aside className="w-56 bg-zinc-950 border-r border-zinc-800 flex flex-col flex-shrink-0">
+    <aside
+      className={cn(
+        'w-56 bg-zinc-950 border-r border-zinc-800 flex flex-col flex-shrink-0 transition-transform duration-200 ease-in-out',
+        // Mobile: fixed overlay, hidden by default
+        'fixed inset-y-0 left-0 z-50 lg:static lg:translate-x-0',
+        mobileOpen ? 'translate-x-0' : '-translate-x-full'
+      )}
+    >
       {/* Logo */}
       <div className="h-14 flex items-center gap-2.5 px-5 border-b border-zinc-800">
         <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center shadow-lg shadow-violet-500/20">
           <Zap className="w-3.5 h-3.5 text-white" />
         </div>
-        <div>
+        <div className="flex-1 min-w-0">
           <div className="font-bold text-white text-sm tracking-tight leading-tight">GitWise AI</div>
           <div className="text-[9px] text-zinc-600 leading-tight">Open-source · Qwen2.5 72B</div>
         </div>
+        {/* Mobile close button */}
+        <button
+          onClick={onClose}
+          className="lg:hidden p-1 rounded-lg text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800 transition-colors"
+        >
+          <X className="w-4 h-4" />
+        </button>
       </div>
 
       {/* Section label */}

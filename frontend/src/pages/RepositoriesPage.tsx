@@ -90,8 +90,8 @@ export function RepositoriesPage() {
   const unmonitored = filtered.filter((r) => !r.isMonitored);
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between flex-wrap gap-3">
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
           <h2 className="text-lg font-semibold text-zinc-100">Repositories</h2>
           <p className="text-sm text-zinc-500 mt-0.5">
@@ -200,7 +200,7 @@ function RepoCard({
   const dotColor = LANGUAGE_COLORS[repo.language] ?? 'bg-zinc-500';
 
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-xl px-5 py-4 flex items-start justify-between gap-4 hover:border-zinc-700 transition-colors">
+    <div className="bg-zinc-900 border border-zinc-800 rounded-xl px-4 sm:px-5 py-4 flex flex-col sm:flex-row items-start justify-between gap-3 sm:gap-4 hover:border-zinc-700 transition-colors">
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2 flex-wrap">
           <a

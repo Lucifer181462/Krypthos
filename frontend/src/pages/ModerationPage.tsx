@@ -128,8 +128,8 @@ export function ModerationPage() {
         </div>
       )}
       {!loading && (<>
-      <div className="flex items-center justify-between">
-        <div className="grid grid-cols-3 gap-4 flex-1">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <div className="grid grid-cols-3 gap-2 sm:gap-4 flex-1">
         {[
           { label: 'Blocked', count: blockCount, color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-800/30', icon: XCircle },
           { label: 'Flagged', count: flagCount, color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-800/30', icon: AlertTriangle },
@@ -150,8 +150,8 @@ export function ModerationPage() {
       </div>
 
       {/* Filters */}
-      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl px-5 py-4 flex items-center gap-4 flex-wrap">
-        <Filter className="w-4 h-4 text-zinc-500 flex-shrink-0" />
+      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl px-4 sm:px-5 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 flex-wrap">
+        <Filter className="w-4 h-4 text-zinc-500 flex-shrink-0 hidden sm:block" />
         <div className="flex items-center gap-2">
           <span className="text-xs text-zinc-500">Decision:</span>
           {(['ALL', 'BLOCK', 'FLAG', 'PASS'] as DecisionFilter[]).map((d) => (
@@ -211,7 +211,7 @@ export function ModerationPage() {
               {/* Card header */}
               <button
                 onClick={() => toggleExpand(evt.id)}
-                className="w-full px-5 py-4 flex items-start gap-4 text-left"
+                className="w-full px-3 sm:px-5 py-3 sm:py-4 flex items-start gap-3 sm:gap-4 text-left"
               >
                 {/* Type icon */}
                 <div className="w-9 h-9 rounded-xl bg-zinc-800 flex items-center justify-center flex-shrink-0 mt-0.5">

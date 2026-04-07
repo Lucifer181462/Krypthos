@@ -204,7 +204,7 @@ export function ReadmeGeneratorPage() {
 
   return (
     <div className="max-w-6xl mx-auto">
-      <div className="grid lg:grid-cols-[320px_1fr] gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-6">
         {/* Left: config */}
         <div className="space-y-5">
           {/* Input */}

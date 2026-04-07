@@ -97,10 +97,10 @@ export function IssueTriagePage() {
     setAnalyzedTitle(issueTitle);
     try {
       const result = await analyzeIssue({
-        repoFullName: repoFullName || 'unknown/unknown',
-        issueNumber: parseInt(issueNumber, 10) || 1,
-        issueTitle,
-        issueBody,
+        title: issueTitle,
+        body: issueBody,
+        repoFullName: repoFullName || undefined,
+        issueNumber: issueNumber ? parseInt(issueNumber, 10) : undefined,
       });
       setAnalysis({
         classification: result.classification as IssueClassification,
@@ -137,7 +137,7 @@ export function IssueTriagePage() {
   return (
     <div className="max-w-6xl mx-auto space-y-8">
       {/* Analyze form */}
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Input */}
         <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 space-y-5">
           <div className="flex items-center gap-2 mb-2">
@@ -145,7 +145,7 @@ export function IssueTriagePage() {
             <span className="text-sm font-semibold text-white">Analyse a New Issue</span>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-[10px] font-semibold uppercase tracking-wider text-zinc-500 mb-2">
                 Repo (owner/repo)
@@ -385,7 +385,7 @@ export function IssueTriagePage() {
 
         <div className="divide-y divide-zinc-800/50">
           {filteredIssues.map((issue) => (
-            <div key={issue.id} className="px-6 py-4 flex items-start gap-4 hover:bg-zinc-800/20 transition-colors">
+            <div key={issue.id} className="px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-start gap-3 sm:gap-4 hover:bg-zinc-800/20 transition-colors">
               <div className="flex-1 min-w-0">
                 <div className="flex items-start gap-3 mb-1.5">
                   <a
@@ -416,7 +416,7 @@ export function IssueTriagePage() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 flex-shrink-0">
+              <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 flex-wrap">
                 {issue.isDuplicate && (
                   <span className="text-[10px] bg-orange-500/10 text-orange-400 px-2 py-0.5 rounded-full">
                     Duplicate

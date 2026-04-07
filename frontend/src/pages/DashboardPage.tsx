@@ -96,7 +96,7 @@ export function DashboardPage({ navigate }: DashboardPageProps) {
       </div>
 
       {/* ── Stat cards ───────────────────────────────────── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {STATS.map(({ label, value, trend, up, icon: Icon, color, bg, page }) => (
           <button
             key={label}
@@ -119,7 +119,7 @@ export function DashboardPage({ navigate }: DashboardPageProps) {
       </div>
 
       {/* ── Activity chart + System health ───────────────── */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-3">
 
         {/* Bar chart — 7-day */}
         <div className="lg:col-span-2 bg-zinc-900 border border-zinc-800 rounded-xl p-5">
@@ -234,7 +234,7 @@ export function DashboardPage({ navigate }: DashboardPageProps) {
       </div>
 
       {/* ── Live feed + Quick actions + Repos ────────────── */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-2">
 
         {/* Live activity feed */}
         <div className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">

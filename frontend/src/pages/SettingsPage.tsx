@@ -20,7 +20,7 @@ function Section({ title, icon: Icon, children }: { title: string; icon: React.C
 
 function Row({ label, description, children }: { label: string; description?: string; children: React.ReactNode }) {
   return (
-    <div className="flex items-center justify-between gap-6">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-6">
       <div className="min-w-0">
         <div className="text-sm text-zinc-200">{label}</div>
         {description && <div className="text-xs text-zinc-600 mt-0.5">{description}</div>}

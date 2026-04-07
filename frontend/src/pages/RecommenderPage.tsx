@@ -113,7 +113,7 @@ export function RecommenderPage() {
 
   return (
     <div className="max-w-6xl mx-auto">
-      <div className="grid lg:grid-cols-[300px_1fr] gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-6">
         {/* Left panel: profile */}
         <div className="space-y-5">
           {/* Skill profile */}

@@ -103,7 +103,7 @@ export function LandingPage({ authError, onDismissError }: LandingPageProps = {}
       )}
       {/* Navbar */}
       <nav className="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl bg-violet-600 flex items-center justify-center">
               <Zap className="w-4 h-4 text-white" />
@@ -124,13 +124,13 @@ export function LandingPage({ authError, onDismissError }: LandingPageProps = {}
       </nav>
 
       {/* Hero */}
-      <section className="max-w-6xl mx-auto px-6 pt-20 pb-16 text-center">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-12 sm:pt-20 pb-12 sm:pb-16 text-center">
         <div className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-medium px-4 py-1.5 rounded-full mb-8">
           <Star className="w-3 h-3" />
           Open source · Self-hostable · Zero paid APIs
         </div>
 
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tighter text-white mb-6 leading-none">
+        <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold tracking-tighter text-white mb-6 leading-none">
           Your AI-powered
           <br />
           <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent">
@@ -138,7 +138,7 @@ export function LandingPage({ authError, onDismissError }: LandingPageProps = {}
           </span>
         </h1>
 
-        <p className="text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p className="text-base sm:text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">
           GitWise AI triages noisy issues, catches faulty PRs before they merge, helps newcomers find their first contribution,
           and writes your README — all powered by{' '}
           <code className="text-violet-400 bg-violet-500/10 px-1.5 py-0.5 rounded text-sm">Qwen2.5 72B</code>. No paid APIs. Ever.
@@ -170,7 +170,7 @@ export function LandingPage({ authError, onDismissError }: LandingPageProps = {}
 
       {/* Stats */}
       <section className="border-y border-zinc-800 bg-zinc-900/30">
-        <div className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
           {STATS.map((stat) => (
             <div key={stat.label} className="text-center">
               <div className="text-4xl font-bold text-white mb-1">{stat.value}</div>
@@ -181,7 +181,7 @@ export function LandingPage({ authError, onDismissError }: LandingPageProps = {}
       </section>
 
       {/* Features */}
-      <section id="features" className="max-w-6xl mx-auto px-6 py-20">
+      <section id="features" className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
         <div className="text-center mb-14">
           <h2 className="text-3xl font-bold text-white tracking-tight mb-3">
             Everything your open-source project needs
@@ -217,17 +217,17 @@ export function LandingPage({ authError, onDismissError }: LandingPageProps = {}
       </section>
 
       {/* Block notification example */}
-      <section className="max-w-6xl mx-auto px-6 pb-20">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-12 sm:pb-20">
         <div className="bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden">
-          <div className="px-8 py-6 border-b border-zinc-800">
-            <h2 className="text-xl font-bold text-white mb-1">
+          <div className="px-4 sm:px-8 py-6 border-b border-zinc-800">
+            <h2 className="text-lg sm:text-xl font-bold text-white mb-1">
               AI block notifications — posted directly on GitHub
             </h2>
             <p className="text-sm text-zinc-400">
               When a PR is blocked, contributors see exactly why — with a link to the faulty line of code.
             </p>
           </div>
-          <div className="p-8 grid md:grid-cols-2 gap-8">
+          <div className="p-4 sm:p-8 grid md:grid-cols-2 gap-6 sm:gap-8">
             {/* Blocked PR card */}
             <div className="bg-zinc-950 border border-red-900/40 rounded-2xl p-6">
               <div className="flex items-center gap-2 mb-4">
@@ -266,7 +266,7 @@ export function LandingPage({ authError, onDismissError }: LandingPageProps = {}
       </section>
 
       {/* How it works */}
-      <section className="max-w-6xl mx-auto px-6 pb-20">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-12 sm:pb-20">
         <h2 className="text-3xl font-bold text-white tracking-tight mb-12 text-center">
           Up and running in 3 steps
         </h2>
@@ -284,7 +284,7 @@ export function LandingPage({ authError, onDismissError }: LandingPageProps = {}
       </section>
 
       {/* CTA */}
-      <section className="max-w-6xl mx-auto px-6 pb-24">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
         <div className="bg-gradient-to-br from-violet-600/20 to-fuchsia-600/10 border border-violet-500/20 rounded-3xl p-12 text-center">
           <h2 className="text-3xl font-bold text-white mb-3 tracking-tight">
             Ready to stop babysitting GitHub?
