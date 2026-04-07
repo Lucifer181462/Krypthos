@@ -66,6 +66,10 @@ export default function App() {
   const logout = async () => {
     await apiLogout().catch(() => {});
     clearToken();
+    // Clear any other gitwise-related cached data
+    Object.keys(localStorage).forEach((key) => {
+      if (key.startsWith('gitwise_')) localStorage.removeItem(key);
+    });
     setUser(null);
     setPage('landing');
   };

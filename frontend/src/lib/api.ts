@@ -16,7 +16,7 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   };
   if (token) headers['Authorization'] = `Bearer ${token}`;
 
-  const res = await fetch(`${API_URL}${path}`, { ...init, headers });
+  const res = await fetch(`${API_URL}${path}`, { ...init, headers, cache: 'no-store' });
 
   if (!res.ok) {
     const text = await res.text().catch(() => res.statusText);

@@ -82,6 +82,31 @@ async def list_repos(
 ):
     result = await db.execute(select(Repository).where(Repository.user_id == current_user.id))
     repos = result.scalars().all()
+
+    # Auto-import from GitHub if the user has no repos yet
+    if not repos and current_user.access_token:
+        try:
+            gh_repos = await gh_service.get_user_repos(current_user.access_token)
+            for r in gh_repos:
+                repo = Repository(
+                    user_id=current_user.id,
+                    github_id=r["github_id"],
+                    name=r["name"],
+                    owner=r["owner"],
+                    full_name=r["full_name"],
+                    url=r["url"],
+                    description=r.get("description", ""),
+                    language=r.get("language", "Unknown"),
+                    stars=r["stars"],
+                    forks=r["forks"],
+                    open_issues=r["open_issues"],
+                )
+                db.add(repo)
+                repos.append(repo)
+            await db.commit()
+        except Exception:
+            pass
+
     return [_repo_to_dict(r) for r in repos]
 
 
